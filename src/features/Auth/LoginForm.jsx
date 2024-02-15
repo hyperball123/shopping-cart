@@ -1,8 +1,8 @@
-import FormRow from "../ui/FormRow";
-import Input from "../ui/Input";
+import FormRow from "../../ui/FormRow";
+import Input from "../../ui/Input";
 import { useForm } from "react-hook-form";
-import Form from "../ui/Form";
-import Button from "../ui/Button";
+import Form from "../../ui/Form";
+import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -14,7 +14,7 @@ function LoginForm() {
   useEffect(() => {
     // Check if user is already authenticated (e.g., token exists in localStorage)
     const token = localStorage.getItem("token");
-  
+
     if (token) {
       navigate("/home"); // Redirect to home page if already authenticated
     }

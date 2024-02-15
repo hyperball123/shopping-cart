@@ -1,5 +1,5 @@
 import { GiShoppingCart } from "react-icons/gi";
-import Logo from "../ui/Logo";
+import Logo from "../../ui/Logo";
 
 import LoginForm from "./LoginForm";
 
