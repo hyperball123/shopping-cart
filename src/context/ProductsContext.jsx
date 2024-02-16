@@ -1,10 +1,11 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import { useProducts } from "./../hooks/useProducts";
 
 const ProductsContext = createContext();
 
 function ProductsProvider({ children }) {
   const product = useProducts();
+  const [query, setQuery] = useState("");
 
   // Filter products by category
   const categories = [
@@ -16,7 +17,7 @@ function ProductsProvider({ children }) {
     "home-decoration",
   ];
   return (
-    <ProductsContext.Provider value={{ product, categories }}>
+    <ProductsContext.Provider value={{ product, categories, query, setQuery }}>
       {children}
     </ProductsContext.Provider>
   );

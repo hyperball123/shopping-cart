@@ -1,4 +1,40 @@
+import { useState } from "react";
+import { useProduct } from "../context/ProductsContext";
+
 function SearchBar() {
+  const { query, setQuery } = useProduct();
+  const [error, setError] = useState(null);
+
+  async function searchProduct() {
+    try {
+      const res = await fetch(
+        `https://dummyjson.com/products/search?q=${query}`
+      );
+
+      if (!res.ok) {
+        const message = `An error has occurred: ${response.status}`;
+        throw new Error(message);
+      }
+
+      const data = await res.json();
+      console.log(data);
+      setQuery(data);
+    } catch (error) {
+      setError("Products fetch failed");
+      console.error("Products fetch failed", error);
+    }
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      searchProduct();
+    }
+  };
+
+  if (error) {
+    return <p> Product does not exist {error}</p>;
+  }
+
   return (
     <div className="p-1 rounded-md overflow-hidden shadow-lg w-96">
       <div className="p-2 rounded-md">
@@ -28,6 +64,9 @@ function SearchBar() {
               className="bg-gray-100 rounded-md px-8 py-4 w-full  transition-colors duration-300 placeholder-gray-500"
               type="text"
               placeholder="Search Products..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </div>
         </div>

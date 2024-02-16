@@ -1,8 +1,7 @@
 import { useProduct } from "../../context/ProductsContext";
 
 function ProdctsUi() {
-  // Got this from the productsContext i created for passing data through components
-  const { product, categories } = useProduct();
+  const { product, categories, query } = useProduct();
 
   // Check if product data is not yet available
   if (!product) {
@@ -13,9 +12,28 @@ function ProdctsUi() {
     return <p className="text-3xl text-center mt-10">No products found😓</p>;
   }
 
-  // Render products for each category
-  const productRows = categories.map((category) => {
-    const categoryProducts = product?.products?.products.filter(
+  // Filter products based on search query
+  let searchedProducts = product.products.products;
+
+  if (query) {
+    searchedProducts = searchedProducts.filter(
+      (product) =>
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.category.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+
+  // Filter categories based on products matching the search query
+  const visibleCategories = categories.filter((category) => {
+    const categoryProducts = searchedProducts.filter(
+      (product) => product.category === category
+    );
+    return categoryProducts.length > 0;
+  });
+
+  // Render products for each visible category
+  const productRows = visibleCategories.map((category) => {
+    const categoryProducts = searchedProducts.filter(
       (product) => product.category === category
     );
 
