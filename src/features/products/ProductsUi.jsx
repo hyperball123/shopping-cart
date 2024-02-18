@@ -1,87 +1,31 @@
 import { useProduct } from "../../context/ProductsContext";
+import FilteredProducts from "./FilteredProducts";
 
 function ProdctsUi() {
-  const { product, categories, query } = useProduct();
-
-  // Check if product data is not yet available
-  if (!product) {
-    return <p className="text-3xl text-center mt-10">🧐Loading...🧐</p>;
+  const { products, error, loading } = useProduct();
+  // Check if loading
+  if (loading) {
+    return <p className="text-3xl text-center mt-10">🧐 Loading... 🧐</p>;
   }
 
-  if (!product.products || product.products.length === 0) {
-    return <p className="text-3xl text-center mt-10">No products found😓</p>;
+  // Check for errors
+  if (error) {
+    return <p className="text-3xl text-center mt-10">Error: {error.message}</p>;
+  }
+
+  // Check if products data is not yet available
+  if (!products.products || products.products.length === 0) {
+    return <p className="text-3xl text-center mt-10">No products found 😓</p>;
   }
 
   // Filter products based on search query
-  let searchedProducts = product.products.products;
+  const selectedProducts = products.products;
 
-  if (query) {
-    searchedProducts = searchedProducts.filter(
-      (product) =>
-        product.title.toLowerCase().includes(query.toLowerCase()) ||
-        product.category.toLowerCase().includes(query.toLowerCase())
-    );
-  }
-
-  // Filter categories based on products matching the search query
-  const visibleCategories = categories.filter((category) => {
-    const categoryProducts = searchedProducts.filter(
-      (product) => product.category === category
-    );
-    return categoryProducts.length > 0;
-  });
-
-  // Render products for each visible category
-  const productRows = visibleCategories.map((category) => {
-    const categoryProducts = searchedProducts.filter(
-      (product) => product.category === category
-    );
-
-    return (
-      <div key={category} className="my-8 mx-4">
-        <h2 className="text-2xl font-semibold mb-4 uppercase hover:underline cursor-pointer text-center ">
-          {category}
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {categoryProducts.map((product) => (
-            <div
-              key={product.id}
-              className="border rounded-lg overflow-hidden shadow-md"
-            >
-              <img
-                src={product.thumbnail}
-                alt={product.title}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2">{product.title}</h3>
-                <p className="text-sm text-gray-600 mb-2">
-                  {product.description}
-                </p>
-                <p className="text-lg font-semibold text-blue-500">
-                  Price: ${product.price}
-                </p>
-                <p className="text-sm text-gray-600 mb-2">
-                  Discount: {product.discountPercentage}%
-                </p>
-                <p className="text-sm text-gray-600 mb-2">
-                  Rating: {product.rating}
-                </p>
-                <p className="text-sm text-gray-600 mb-2">
-                  Stock: {product.stock}
-                </p>
-                <p className="text-sm text-gray-600 mb-2">
-                  Brand: {product.brand}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  });
-
-  return <main className="overflow-auto">{productRows}</main>;
+  return (
+    <main className="overflow-auto">
+      <FilteredProducts searchedProducts={selectedProducts} />
+    </main>
+  );
 }
 
 export default ProdctsUi;

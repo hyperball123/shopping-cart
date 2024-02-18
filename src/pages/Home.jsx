@@ -1,6 +1,7 @@
 import Logo from "../ui/Logo";
 import SearchBar from "../ui/SearchBar";
 import ProductsUi from "../features/products/ProductsUi";
+import PriceRangeDropDown from "../ui/PriceRangeDropDown";
 
 function Home() {
   return (

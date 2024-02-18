@@ -1,25 +1,19 @@
 import { useEffect, useState } from "react";
-// import { useProduct } from "../context/ProductsContext";
 
 export function useProducts() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false); // Add loading state
   const [error, setError] = useState(null);
-
-  // const { query } = useProduct();
 
   useEffect(() => {
     fetchProducts();
-  }, []); // Dependency array is empty, fetch only once when component mounts
+  }, []);
 
   async function fetchProducts() {
-    let response;
+    setLoading(true); // Set loading state to true before fetching
+
     try {
-      // if (query) {
-      //   response = query;
-      // } else {
-      //   response = await fetch("https://dummyjson.com/products");
-      // }
-      response = await fetch("https://dummyjson.com/products");
+      const response = await fetch("https://dummyjson.com/products");
 
       if (!response.ok) {
         const message = `An error has occurred: ${response.status}`;
@@ -31,8 +25,10 @@ export function useProducts() {
     } catch (error) {
       setError("Products fetch failed");
       console.error("Products fetch failed", error);
+    } finally {
+      setLoading(false); // Set loading state to false after fetching (success or error)
     }
   }
 
-  return { products, error };
+  return { products, loading, error }; // Include loading state in the return value
 }

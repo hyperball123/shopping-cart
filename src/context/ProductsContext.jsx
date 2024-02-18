@@ -4,7 +4,7 @@ import { useProducts } from "./../hooks/useProducts";
 const ProductsContext = createContext();
 
 function ProductsProvider({ children }) {
-  const product = useProducts();
+  const { products, error, loading } = useProducts();
   const [query, setQuery] = useState("");
 
   // Filter products by category
@@ -17,7 +17,9 @@ function ProductsProvider({ children }) {
     "home-decoration",
   ];
   return (
-    <ProductsContext.Provider value={{ product, categories, query, setQuery }}>
+    <ProductsContext.Provider
+      value={{ loading, error, products, categories, query, setQuery }}
+    >
       {children}
     </ProductsContext.Provider>
   );
