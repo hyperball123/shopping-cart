@@ -6,8 +6,20 @@ const ProductsContext = createContext();
 function ProductsProvider({ children }) {
   const { products, error, loading } = useProducts();
   const [query, setQuery] = useState("");
+  const [cart, setCart] = useState([]);
 
-  // Filter products by category
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+
+  const removeFromCart = (productId) => {
+    setCart(cart.filter((product) => product.id !== productId));
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
   const categories = [
     "smartphones",
     "laptops",
@@ -16,9 +28,21 @@ function ProductsProvider({ children }) {
     "groceries",
     "home-decoration",
   ];
+
   return (
     <ProductsContext.Provider
-      value={{ loading, error, products, categories, query, setQuery }}
+      value={{
+        loading,
+        error,
+        products,
+        categories,
+        query,
+        setQuery,
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+      }}
     >
       {children}
     </ProductsContext.Provider>

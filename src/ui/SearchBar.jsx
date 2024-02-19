@@ -38,9 +38,7 @@ function SearchBar() {
   return (
     <div className="p-1 rounded-md overflow-hidden shadow-lg w-96">
       <div className="p-2 rounded-md">
-        {/* <label className="block text-center font-bold text-gray-800 mb-4">
-          Search for the Products here
-        </label> */}
+       
         <div className="flex">
           <div className="min-w-33 min-h-33 flex items-center justify-center rounded-md mr-4  bg-white">
             <svg

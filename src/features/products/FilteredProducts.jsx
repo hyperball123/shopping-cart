@@ -3,15 +3,14 @@ import { useProduct } from "../../context/ProductsContext";
 import PriceRangeDropDown from "../../ui/PriceRangeDropDown";
 
 function FilteredProducts({ searchedProducts }) {
-  const { categories, query } = useProduct();
-  const [selectedPriceRange, setSelectedPriceRange] = useState(""); 
+  const { categories, query, addToCart } = useProduct();
+  const [selectedPriceRange, setSelectedPriceRange] = useState("");
 
   const handlePriceRangeChange = (range) => {
-   
     setSelectedPriceRange(range);
   };
 
-  let filteredProducts = searchedProducts; 
+  let filteredProducts = searchedProducts;
 
   // Filter products based on search query
   if (query) {
@@ -30,7 +29,6 @@ function FilteredProducts({ searchedProducts }) {
         product.price >= parseInt(minPrice) &&
         product.price <= parseInt(maxPrice)
     );
-    console.log(minPrice, maxPrice);
   }
 
   // Render products for each category
@@ -79,6 +77,12 @@ function FilteredProducts({ searchedProducts }) {
                 <p className="text-sm text-gray-600 mb-2">
                   Brand: {product.brand}
                 </p>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all duration-200"
+                  onClick={() => addToCart(product)}
+                >
+                  Add to Cart
+                </button>
               </div>
             </div>
           ))}

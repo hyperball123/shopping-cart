@@ -1,23 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const PriceRangeDropDown = ({ onChange }) => {
   const [selectedRange, setSelectedRange] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleSelectChange = (event) => {
     const range = event.target.value;
     setSelectedRange(range);
     onChange(range);
+    setIsOpen(false);
   };
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left w-fit" ref={dropdownRef}>
       <div>
         <button
           type="button"
           className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           id="options-menu"
           aria-haspopup="true"
-          aria-expanded="true"
+          aria-expanded={isOpen ? "true" : "false"}
+          onClick={() => setIsOpen(!isOpen)}
         >
           {selectedRange || "Select Price Range"}
           <svg
@@ -36,47 +53,49 @@ const PriceRangeDropDown = ({ onChange }) => {
         </button>
       </div>
 
-      <div
-        className="origin-top-right w-full absolute right-0 mt-2  rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby="options-menu"
-      >
-        <div className="py-1 " role="none">
-          <button
-            onClick={handleSelectChange}
-            value="0-100"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
-            role="menuitem"
-          >
-            $0 - $100
-          </button>
-          <button
-            onClick={handleSelectChange}
-            value="101-210"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
-            role="menuitem"
-          >
-            $101 - $210
-          </button>
-          <button
-            onClick={handleSelectChange}
-            value="211-500"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
-            role="menuitem"
-          >
-            $211 - $500
-          </button>
-          <button
-            onClick={handleSelectChange}
-            value="500-1500"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
-            role="menuitem"
-          >
-            $500 - $1500
-          </button>
+      {isOpen && (
+        <div
+          className="origin-top-right w-full absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="options-menu"
+        >
+          <div className="py-1" role="none">
+            <button
+              onClick={handleSelectChange}
+              value="0-100"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
+              role="menuitem"
+            >
+              $0 - $100
+            </button>
+            <button
+              onClick={handleSelectChange}
+              value="101-210"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
+              role="menuitem"
+            >
+              $101 - $210
+            </button>
+            <button
+              onClick={handleSelectChange}
+              value="211-500"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
+              role="menuitem"
+            >
+              $211 - $500
+            </button>
+            <button
+              onClick={handleSelectChange}
+              value="500-1500"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
+              role="menuitem"
+            >
+              $500 - $1500
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

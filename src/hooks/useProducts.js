@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export function useProducts() {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false); 
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -10,7 +10,7 @@ export function useProducts() {
   }, []);
 
   async function fetchProducts() {
-    setLoading(true); // Set loading state to true before fetching
+    setLoading(true); 
 
     try {
       const response = await fetch("https://dummyjson.com/products");
@@ -26,9 +26,9 @@ export function useProducts() {
       setError("Products fetch failed");
       console.error("Products fetch failed", error);
     } finally {
-      setLoading(false); // Set loading state to false after fetching (success or error)
+      setLoading(false); 
     }
   }
 
-  return { products, loading, error }; // Include loading state in the return value
+  return { products, loading, error };
 }

@@ -4,6 +4,7 @@ import AppLayout from "./ui/AppLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { ProductsProvider } from "./context/ProductsContext";
+import Cart from "./features/products/Cart";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           >
             <Route index element={<Navigate replace to="home" />} />
             <Route path="home" element={<Home />} />
+            <Route path="cart" element={<Cart />} />
           </Route>
 
           <Route path="login" element={<Login />} />

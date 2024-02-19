@@ -7,16 +7,17 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function LoginForm() {
-  const { register, handleSubmit, reset, formState } = useForm();
+  const { register, handleSubmit, formState } = useForm();
+  const { errors } = formState;
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Check if user is already authenticated (e.g., token exists in localStorage)
+    // Check if user is already authenticated 
     const token = localStorage.getItem("token");
 
     if (token) {
-      navigate("/home"); // Redirect to home page if already authenticated
+      navigate("/home"); 
     }
   }, []);
 
@@ -28,7 +29,6 @@ function LoginForm() {
         body: JSON.stringify({
           username: "kminchelle",
           password: "0lelplR",
-          // expiresInMins: 60, // optional
         }),
       });
 
@@ -36,13 +36,10 @@ function LoginForm() {
         throw new Error("Authentication failed");
       }
 
-      // Authentication successful, extract token from response
       const { token } = await response.json();
 
-      // Save token to localStorage
       localStorage.setItem("token", token);
 
-      // Redirect to home page or perform any other actions
       navigate("/home");
     } catch (error) {
       setError("Authentication failed");
@@ -52,10 +49,12 @@ function LoginForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      {error && <p>{error}</p>}
-      <FormRow label="username">
+      {error && (
+        <p className="font-bold text-red-500 text-sm sm:text-lg">{error}</p>
+      )}
+      <FormRow label="username" error={errors?.username?.message}>
         <Input
-          type="text" // Use type "text" for username input
+          type="text" 
           id="username"
           autoComplete="username"
           {...register("username", {
@@ -63,7 +62,7 @@ function LoginForm() {
           })}
         />
       </FormRow>
-      <FormRow label="password">
+      <FormRow label="password" error={errors?.password?.message}>
         <Input
           type="password"
           id="password"
