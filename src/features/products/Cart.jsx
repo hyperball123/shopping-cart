@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function CartPage() {
   const { cart, removeFromCart, clearCart } = useProduct();
-  const cartProducts = cart; 
+  const cartProducts = cart;
 
   const totalAmount = cartProducts.reduce(
     (total, product) => total + product.price,
@@ -12,7 +12,7 @@ function CartPage() {
   );
 
   return (
-    <div className="container mx-auto mt-8">
+    <div className="container mx-auto mt-8 px-2">
       <h1 className="text-3xl font-semibold mb-4">Your Cart</h1>
       <Link to="/" className="block mt-4 text-blue-500 hover:underline">
         &larr; Back to Home
@@ -32,7 +32,7 @@ function CartPage() {
             <p className="text-gray-600">${product.price}</p>
           </div>
           <button
-            className="text-lg ml-auto"
+            className="text-lg ml-auto bg-gray-200 hover:bg-gray-400 transition-all duration-300 rounded-full p-4"
             onClick={() => removeFromCart(product.id)}
           >
             Remove

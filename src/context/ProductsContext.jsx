@@ -10,6 +10,7 @@ function ProductsProvider({ children }) {
 
   const addToCart = (product) => {
     setCart([...cart, product]);
+    alert(product.title + " was added to the cart");
   };
 
   const removeFromCart = (productId) => {

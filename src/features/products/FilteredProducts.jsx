@@ -50,7 +50,7 @@ function FilteredProducts({ searchedProducts }) {
           {categoryProducts.map((product) => (
             <div
               key={product.id}
-              className="border rounded-lg overflow-hidden shadow-md"
+              className="border rounded-lg overflow-hidden shadow-md flex flex-col justify-between"
             >
               <img
                 src={product.thumbnail}
@@ -58,25 +58,29 @@ function FilteredProducts({ searchedProducts }) {
                 className="w-full h-48 object-cover"
               />
               <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2">{product.title}</h3>
-                <p className="text-sm text-gray-600 mb-2">
-                  {product.description}
-                </p>
-                <p className="text-lg font-semibold text-blue-500">
-                  Price: ${product.price}
-                </p>
-                <p className="text-sm text-gray-600 mb-2">
-                  Discount: {product.discountPercentage}%
-                </p>
-                <p className="text-sm text-gray-600 mb-2">
-                  Rating: {product.rating}
-                </p>
-                <p className="text-sm text-gray-600 mb-2">
-                  Stock: {product.stock}
-                </p>
-                <p className="text-sm text-gray-600 mb-2">
-                  Brand: {product.brand}
-                </p>
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">
+                    {product.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-2">
+                    {product.description}
+                  </p>
+                  <p className="text-lg font-semibold text-blue-500">
+                    Price: ${product.price}
+                  </p>
+                  <p className="text-sm text-gray-600 mb-2">
+                    Discount: {product.discountPercentage}%
+                  </p>
+                  <p className="text-sm text-gray-600 mb-2">
+                    Rating: {product.rating}
+                  </p>
+                  <p className="text-sm text-gray-600 mb-2">
+                    Stock: {product.stock}
+                  </p>
+                  <p className="text-sm text-gray-600 mb-2">
+                    Brand: {product.brand}
+                  </p>
+                </div>
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all duration-200"
                   onClick={() => addToCart(product)}
